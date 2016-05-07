@@ -15,6 +15,7 @@ var commands = [,
   "cloneExtension",
   "missingExtensions",
   "missingSkins",
+  "updateComposer",
   "msgHook"
 ];
 

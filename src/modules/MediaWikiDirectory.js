@@ -45,6 +45,26 @@ exports.getPath = function () {
 
 };
 
+exports.getExtensions = function() {
+  var srcpath = path.resolve( exports.getPath() + '/extensions' );
+  return fs.readdirSync(srcpath).filter(function(file) {
+    if(file == '.git') {
+      return false;
+    }
+    return fs.statSync(path.join(srcpath, file)).isDirectory();
+  });
+};
+
+exports.getSkins = function() {
+  var srcpath = path.resolve( exports.getPath() + '/skins' );
+  return fs.readdirSync(srcpath).filter(function(file) {
+    if(file == '.git') {
+      return false;
+    }
+    return fs.statSync(path.join(srcpath, file)).isDirectory();
+  });
+};
+
 /**
  * @param extensionName
  * @returns {*}

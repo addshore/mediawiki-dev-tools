@@ -5,4 +5,5 @@ Usage: mwdev [<stuff>]
 --missing-extensions                  Lists missing extensions and optionally clones them with --clone
 --missing-skins                       Lists missing skins and optionally clones them with --clone
 --msg-hook                            Adds the Gerrit commit-msg hook to the git repo you are in
+--update-composer                     Updates a requirement in a composer.json file for a given skin or extension
 --help                                Provides help. (Can be used with commands listed above)
