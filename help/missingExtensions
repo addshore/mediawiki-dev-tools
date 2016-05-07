@@ -1,0 +1,4 @@
+Lists and optionally clones missing extensions.
+
+Usage: mwdev --missing-extensions
+       mwdev --missing-extensions --clone

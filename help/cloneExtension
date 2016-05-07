@@ -1,4 +1,4 @@
-Clones the extension in a directory in your current directory
+Clones the extension into the extensions directory
 
 Usage: mwdev --clone-extension MassMessage
 

@@ -13,7 +13,7 @@ var error = clc.red.bold;
 var commands = [,
   "help",
   "cloneExtension",
-  "extensionReport",
+  "missingExtensions",
   "msgHook"
 ];
 

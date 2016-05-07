@@ -8,6 +8,7 @@ var
   GitHubApi = require('github'),
   CommandRequirer = require('./../modules/CommandRequirer'),
   MediaWikiDirectory = require('./../modules/MediaWikiDirectory'),
+  cloneExtension = require('./../commands/cloneExtension'),
   FileCacheSimple = require('file-cache-simple');
 
 var github = new GitHubApi({
@@ -56,9 +57,17 @@ exports.run = function( argv ) {
 
   var processRepos = function( repos ) {
     var extensions = getExtensionsFromRepos(repos);
+    // Remove duplicates (not sure why this happens).....
+    extensions = extensions.filter(function(item, i, ar){ return ar.indexOf(item) === i; });
     for (var i = 0; i < extensions.length; i++) {
       var extension = extensions[i];
-      MediaWikiDirectory.checkExtension(extension);
+      if(!MediaWikiDirectory.extensionExists(extension)) {
+        if(argv.clone) {
+          cloneExtension.cloneExtension(extension);
+        } else {
+          console.log('Missing extension ' + extension);
+        }
+      }
     }
   };
 

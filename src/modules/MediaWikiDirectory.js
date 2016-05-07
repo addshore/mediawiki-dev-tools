@@ -46,12 +46,27 @@ exports.getPath = function () {
 
 };
 
-exports.checkExtension = function (extension) {
-  var extensionDirectory = path.resolve(exports.getPath() + '/extensions');
+/**
+ * @param extension
+ * @returns {*}
+ */
+exports.getExtensionPath = function(extension) {
+  return path.resolve(exports.getPath() + '/extensions/' + extension);
+};
+
+/**
+ * Checks to see if the given extension directry exists and it cloned / has a .git
+ * @param extension
+ * @returns {boolean}
+ */
+exports.extensionExists = function (extension) {
+  var extensionPath = exports.getExtensionPath(extension);
   try {
-    fs.accessSync(path.resolve(extensionDirectory + '/' + extension + '/'), fs.F_OK)
+    fs.accessSync(extensionPath, fs.F_OK);
+    fs.accessSync(path.resolve(extensionPath + '/.git'), fs.F_OK);
+    return true;
   }
   catch(err) {
-    console.log('Missing extension ' + extension);
+    return false
   }
 };
