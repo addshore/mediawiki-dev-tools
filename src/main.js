@@ -10,10 +10,10 @@ var
 
 var error = clc.red.bold;
 
-var commands = [
+var commands = [,
+  "help",
   "cloneExtension",
-  "msgHook",
-  "help"
+  "msgHook"
 ];
 
 for (var i = 0; i < commands.length; i++) {
@@ -24,5 +24,4 @@ for (var i = 0; i < commands.length; i++) {
   }
 }
 
-console.log(error("Unknown command!"));
 require('./commands/help.js').run(argv);

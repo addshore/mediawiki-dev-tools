@@ -1,0 +1,3 @@
+Adds the Gerrit commit-msg hook to the git repo you are in
+
+Usage: mwdev --msg-hook
