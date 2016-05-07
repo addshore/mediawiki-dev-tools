@@ -1,0 +1,19 @@
+{
+  "name": "wikimedia-dev-tools",
+  "version": "0.0.1",
+  "description": "A collection of dev tools for use with Mediawiki and extensions",
+  "author": "Addshore",
+  "scripts": {},
+  "bin": {
+    "mwdev": "./src/main.js"
+  },
+  "dependencies": {
+    "cli-color": "^1.1.0",
+    "fs-extra": "^0.30.0",
+    "shelljs": "^0.7.0",
+    "yargs": "^4.7.0"
+  },
+  "devDependencies": {},
+  "license": "GPL-3.0",
+  "preferGlobal": true
+}

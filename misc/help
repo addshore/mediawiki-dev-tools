@@ -1,0 +1,5 @@
+
+usage: mwdev [<stuff>]
+
+--clone-extension <extensionName>     clones the extension
+--msg-hook                            adds the Gerrit commit-msg hook
