@@ -1,7 +1,6 @@
 require('shelljs/global');
 
 var
-  shell = require('shelljs'),
   path = require('path'),
   fs = require('fs-extra'),
   clc = require('cli-color');
@@ -47,23 +46,49 @@ exports.getPath = function () {
 };
 
 /**
- * @param extension
+ * @param extensionName
  * @returns {*}
  */
-exports.getExtensionPath = function(extension) {
-  return path.resolve(exports.getPath() + '/extensions/' + extension);
+exports.getExtensionPath = function(extensionName) {
+  return path.resolve(exports.getPath() + '/extensions/' + extensionName);
 };
 
 /**
- * Checks to see if the given extension directry exists and it cloned / has a .git
- * @param extension
+ * @param skinName
+ * @returns {*}
+ */
+exports.getSkinPath = function(skinName) {
+  return path.resolve(exports.getPath() + '/skins/' + skinName);
+};
+
+/**
+ * Checks to see if the given extension directory exists and it cloned / has a .git
+ * @param extensionName
  * @returns {boolean}
  */
-exports.extensionExists = function (extension) {
-  var extensionPath = exports.getExtensionPath(extension);
+exports.extensionExists = function (extensionName) {
+  var extensionPath = exports.getExtensionPath(extensionName);
   try {
     fs.accessSync(extensionPath, fs.F_OK);
     fs.accessSync(path.resolve(extensionPath + '/.git'), fs.F_OK);
+    return true;
+  }
+  catch(err) {
+    return false
+  }
+};
+
+
+/**
+ * Checks to see if the given skin directory exists and it cloned / has a .git
+ * @param skinName
+ * @returns {boolean}
+ */
+exports.skinExists = function (skinName) {
+  var skinPath = exports.getSkinPath(skinName);
+  try {
+    fs.accessSync(skinPath, fs.F_OK);
+    fs.accessSync(path.resolve(skinPath + '/.git'), fs.F_OK);
     return true;
   }
   catch(err) {

@@ -14,6 +14,7 @@ var commands = [,
   "help",
   "cloneExtension",
   "missingExtensions",
+  "missingSkins",
   "msgHook"
 ];
 
