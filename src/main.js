@@ -13,6 +13,7 @@ var error = clc.red.bold;
 var commands = [,
   "help",
   "cloneExtension",
+  "extensionReport",
   "msgHook"
 ];
 
@@ -20,7 +21,7 @@ for (var i = 0; i < commands.length; i++) {
   var command = commands[i];
   if( argv.hasOwnProperty( command ) ) {
     require('./commands/' + command + '.js').run(argv);
-    exit(0);
+    return;
   }
 }
 
