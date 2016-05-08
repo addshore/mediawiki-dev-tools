@@ -1,6 +1,7 @@
 var
   fs = require('fs-extra'),
   MediaWikiDirectory = require('./../modules/MediaWikiDirectory'),
+  ComposerJson = require('./../modules/ComposerJson'),
   path = require('path'),
   clc = require('cli-color');
 
@@ -29,29 +30,6 @@ exports.run = function (argv) {
     dir = MediaWikiDirectory.getExtensionPath(argv.extension);
   }
 
-  exports.updateComposer( dir, argv.package, argv.version );
+  ComposerJson.updateRequirement( path.resolve(dir + '/composer.json'), argv.package, argv.version );
 
-};
-
-exports.updateComposer = function( directory, packageName, newVersion ) {
-  var composerFile = path.resolve(directory + '/composer.json');
-  try {
-    fs.accessSync(composerFile, fs.F_OK);
-  }
-  catch(err) {
-    console.log(error('composer.json not found'));
-    return false
-  }
-  var composerJson = JSON.parse(fs.readFileSync(composerFile, 'utf8'));
-  if(composerJson.hasOwnProperty('require')) {
-    if(composerJson['require'].hasOwnProperty(packageName)) {
-      composerJson['require'][packageName] = newVersion;
-    }
-  }
-  if(composerJson.hasOwnProperty('require-dev')) {
-    if(composerJson['require-dev'].hasOwnProperty(packageName)) {
-      composerJson['require-dev'][packageName] = newVersion;
-    }
-  }
-  fs.writeFileSync(composerFile,JSON.stringify(composerJson, null, '\t'),'utf8')
 };

@@ -1,0 +1,7 @@
+Does stuff with extensions
+
+Usage: mwdev --extension-report
+       mwdev --extension-report --branch master --fix
+
+--branch <branchName>                   lists extensions that are not on the specified branch
+--branch <branchName> --fix             checks out the given branch for all extensions

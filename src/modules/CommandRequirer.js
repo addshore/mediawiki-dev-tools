@@ -1,7 +1,6 @@
 require('shelljs/global');
 
 var
-  shell = require('shelljs'),
   clc = require('cli-color');
 
 var error = clc.red.bold;

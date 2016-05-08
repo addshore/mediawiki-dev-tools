@@ -2,6 +2,7 @@ Usage: mwdev [<stuff>]
 
 --clone-extension <extensionName>     Clones the extension
 --clone-skin <skinName>               Clones the skin
+--extension-report                    Stuff to help you manage extensions
 --missing-extensions                  Lists missing extensions and optionally clones them with --clone
 --missing-skins                       Lists missing skins and optionally clones them with --clone
 --msg-hook                            Adds the Gerrit commit-msg hook to the git repo you are in
