@@ -1,33 +1,80 @@
 var
-  fs = require('fs-extra');
+  fs = require('fs-extra'),
+  path = require('path');
 
-exports.updateRequirement = function( jsonPath, packageName, newVersion, dryRun ) {
+var ComposerJson = module.exports = function(directory){
+  this.path = path.resolve(directory + '/composer.json');
+  this._throwOnNotComposerJson();
+  this._load();
+  this.hasChanges = false;
+};
+
+ComposerJson.prototype._throwOnNotComposerJson = function() {
   try {
-    fs.accessSync(jsonPath, fs.F_OK);
+    fs.accessSync(this.path, fs.F_OK);
   }
   catch(err) {
-    return false
+    throw 'No composer.json file found: ' . this.path;
   }
-  var changes = false;
-  var composerJson = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
-  if(
-    composerJson.hasOwnProperty('require') &&
-    composerJson['require'].hasOwnProperty(packageName) &&
-    composerJson['require'][packageName] != newVersion
-  ) {
-    composerJson['require'][packageName] = newVersion;
-    changes = true;
+};
+
+ComposerJson.prototype._load = function() {
+  var rawData = fs.readFileSync(this.path, 'utf8');
+  this.content = JSON.parse(rawData);
+};
+
+/**
+ * @param packageName
+ * @param atVersion Optional
+ * @returns {boolean|String} or the version
+ */
+ComposerJson.prototype.requiresPackage = function(packageName, atVersion) {
+  try{
+    var version = this.content['require'][packageName];
+    if( version === undefined ) {
+      return false;
+    }
+    if( atVersion === undefined || version == atVersion ) {
+      return version;
+    }
+  }catch(err){
+    return false;
   }
-  if(
-    composerJson.hasOwnProperty('require-dev') &&
-    composerJson['require-dev'].hasOwnProperty(packageName) &&
-    composerJson['require-dev'][packageName] != newVersion
-  ) {
-    composerJson['require-dev'][packageName] = newVersion;
-    changes = true;
+};
+
+/**
+ * @param packageName
+ * @param atVersion Optional
+ * @returns {boolean|String} or the version
+ */
+ComposerJson.prototype.requiresDevPackage = function(packageName, atVersion) {
+  try{
+    var version = this.content['require-dev'][packageName];
+    if( version === undefined ) {
+      return false;
+    }
+    if( atVersion === undefined || version == atVersion ) {
+      return version;
+    }
+  }catch(err){
+    return false;
   }
-  if(changes && !dryRun) {
-    fs.writeFileSync(jsonPath,JSON.stringify(composerJson, null, '\t'),'utf8')
+};
+
+ComposerJson.prototype.save = function() {
+  fs.writeFileSync(this.path,JSON.stringify(this.content, null, '\t'),'utf8')
+};
+
+ComposerJson.prototype.require = function(packageName, version) {
+  if( this.requiresPackage(packageName) ) {
+    this.content['require'][packageName] = version;
+    this.hasChanges = true;
   }
-  return changes;
+};
+
+ComposerJson.prototype.requireDev = function(packageName, version) {
+  if( this.requiresDevPackage(packageName) ) {
+    this.content['require-dev'][packageName] = version;
+    this.hasChanges = true;
+  }
 };

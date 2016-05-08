@@ -9,17 +9,42 @@ var
 
 var error = clc.red.bold;
 
-var updateRequirement = function (type, name, packageName, version, argv) {
+var updateRequirement = function (type, name, argv) {
+  var packageName = argv.package;
+  var version = argv.version;
   var annexPath = MediaWikiDirectory.getAnnexPath(type, name);
-  var jsonPath = path.resolve( annexPath + '/composer.json' );
-  if( ComposerJson.updateRequirement(jsonPath, packageName, version, argv.dry) ){
-    console.log(type + ' ' + name + ' requirements ' + packageName + ' : ' + version);
-    if(argv.push && !argv.dry) {
+  try{
+    var annexComposerJson = new ComposerJson(annexPath);
+  }
+  catch(err){
+    //No composer.json for this annex!
+    return;
+  }
+
+  var currentVersion = annexComposerJson.requiresPackage(packageName) || annexComposerJson.requiresDevPackage(packageName);
+  // If the package name is required somehow
+  if(currentVersion) {
+    if( argv.from && argv.from != currentVersion ) {
+      return;
+    }
+    if( version == currentVersion ) {
+      return;
+    }
+    annexComposerJson.require(packageName, version);
+    annexComposerJson.requireDev(packageName, version);
+  }
+
+  if (annexComposerJson.hasChanges) {
+    console.log(type + ' ' + name + ' requirements ' + packageName + ' : ' + version + ' from ' + currentVersion);
+    if (argv.push) {
+
       cd(annexPath);
-      exec( 'git add ./composer.json' );
-      exec( 'git commit -m "composer.json ' + packageName + ' to ' + version + '"' );
-      exec( 'git push origin HEAD:refs/drafts/master' );
-      exec( 'git reset --hard origin/master');
+      exec('git stash', {silent: true});
+      annexComposerJson.save();
+      exec('git add ./composer.json', {silent: true});
+      exec('git commit -m "composer.json ' + packageName + ' to ' + version + '"', {silent: true});
+      exec('git push origin HEAD:refs/drafts/master');
+      exec('git reset --hard HEAD@{1}');
     }
   }
 };
@@ -42,32 +67,29 @@ exports.run = function (argv) {
     console.log(error("You must specify a version to update to."));
     return;
   }
-  if(argv.dry) {
-    console.log('Doing dry run!');
-  }
 
   var skins = [];
   var extensions = [];
-  if(argv.skins) {
-    skins = skins.concat( MediaWikiDirectory.getAnnexes('skin') );
+  if (argv.skins) {
+    skins = skins.concat(MediaWikiDirectory.getAnnexes('skin'));
   }
-  if(argv.extensions) {
-    extensions = extensions.concat( MediaWikiDirectory.getAnnexes('extension') );
+  if (argv.extensions) {
+    extensions = extensions.concat(MediaWikiDirectory.getAnnexes('extension'));
   }
-  if(!argv.skins && !argv.extensions) {
+  if (!argv.skins && !argv.extensions) {
     if (argv.skin) {
-      skins.push( argv.skin );
+      skins.push(argv.skin);
     }
     if (argv.extension) {
-      extensions.push( argv.extension );
+      extensions.push(argv.extension);
     }
   }
 
   for (var i = 0; i < skins.length; i++) {
-    updateRequirement('skin', skins[i], argv.package, argv.version, argv);
+    updateRequirement('skin', skins[i], argv);
   }
   for (var j = 0; j < extensions.length; j++) {
-    updateRequirement('extension', extensions[j], argv.package, argv.version, argv);
+    updateRequirement('extension', extensions[j], argv);
   }
 
 };
