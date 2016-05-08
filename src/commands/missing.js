@@ -17,7 +17,7 @@ exports.run = function( argv ) {
         var extension = extensions[i];
         if(!MediaWikiDirectory.annexExitsts('extension',extension)) {
           hadMissing = true;
-          if(argv.clone) {
+          if(argv.get) {
             clone.cloneExtension(extension);
           } else {
             console.log('Missing extension ' + extension);
@@ -38,7 +38,7 @@ exports.run = function( argv ) {
         var skin = skins[i];
         if(!MediaWikiDirectory.annexExitsts('skin',skin)) {
           hadMissing = true;
-          if(argv.clone) {
+          if(argv.get) {
             clone.cloneSkin(skin);
           } else {
             console.log('Missing skin ' + skin);

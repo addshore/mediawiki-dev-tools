@@ -1,3 +1,5 @@
+require('shelljs/global');
+
 var
   fs = require('fs-extra'),
   MediaWikiDirectory = require('./../modules/MediaWikiDirectory'),
@@ -7,10 +9,18 @@ var
 
 var error = clc.red.bold;
 
-var updateRequirement = function (type, name, packageName, version, dryRun) {
-  var jsonPath = path.resolve( MediaWikiDirectory.getAnnexPath(type, name) + '/composer.json' );
-  if( ComposerJson.updateRequirement(jsonPath, packageName, version, dryRun) ){
+var updateRequirement = function (type, name, packageName, version, argv) {
+  var annexPath = MediaWikiDirectory.getAnnexPath(type, name);
+  var jsonPath = path.resolve( annexPath + '/composer.json' );
+  if( ComposerJson.updateRequirement(jsonPath, packageName, version, argv.dry) ){
     console.log(type + ' ' + name + ' requirements ' + packageName + ' : ' + version);
+    if(argv.push && !argv.dry) {
+      cd(annexPath);
+      exec( 'git add ./composer.json' );
+      exec( 'git commit -m "composer.json ' + packageName + ' to ' + version + '"' );
+      exec( 'git push origin HEAD:refs/drafts/master' );
+      exec( 'git reset --hard origin/master');
+    }
   }
 };
 
@@ -54,10 +64,10 @@ exports.run = function (argv) {
   }
 
   for (var i = 0; i < skins.length; i++) {
-    updateRequirement('skin', skins[i], argv.package, argv.version, argv.dry);
+    updateRequirement('skin', skins[i], argv.package, argv.version, argv);
   }
   for (var j = 0; j < extensions.length; j++) {
-    updateRequirement('extension', extensions[j], argv.package, argv.version, argv.dry);
+    updateRequirement('extension', extensions[j], argv.package, argv.version, argv);
   }
 
 };

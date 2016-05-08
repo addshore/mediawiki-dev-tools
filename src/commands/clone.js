@@ -34,26 +34,26 @@ exports.cloneAnnex = function( type, name ){
     throw 'cloneThing type must be skin or extension';
   }
 
-  if(MediaWikiDirectory.annexExitsts('extension',extension)){
-    console.log(error('Specified extension is already cloned.'));
+  if(MediaWikiDirectory.annexExitsts(type,name)){
+    console.log(error('Specified annex is already cloned.'));
     return;
   }
 
   // Get the user.name registered in git and bail if there isn't one
-  var gitUser = shell.exec('git config --get user.name',{silent:true}).stdout;
+  var gitUser = shell.exec('git config --get user.name',{silent:true}).stdout.trim();
   if(!gitUser){
     console.log(error('You must have a user.name configured in git.'));
     return;
   }
 
-  var extensionDir = MediaWikiDirectory.getAnnexPath('extension',extension);
+  var dir = MediaWikiDirectory.getAnnexPath(type,name);
   var pwd = path.resolve('.');
 
-  // Clone the extension from github, switch the remove and add the commit-msg hook for Gerrit
-  shell.exec('git clone https://github.com/wikimedia/mediawiki-extensions-' + extension + '.git ' + extensionDir);
-  cd(extensionDir);
-  shell.exec('git remote set-url origin ssh://' + gitUser + '@gerrit.wikimedia.org:29418/mediawiki/extensions/' + extension);
-  fs.copySync(__dirname + '/../../misc/commit-msg', extensionDir + '/.git/hooks/commit-msg');
+  // Clone the annex from github, switch the remove and add the commit-msg hook for Gerrit
+  shell.exec('git clone https://github.com/wikimedia/mediawiki-' + type + 's-' + name + '.git ' + dir);
+  cd(dir);
+  shell.exec('git remote set-url origin ssh://' + gitUser + '@gerrit.wikimedia.org:29418/mediawiki/' + type + 's/' + name);
+  fs.copySync(__dirname + '/../../misc/commit-msg', dir + '/.git/hooks/commit-msg');
   cd(pwd);
 };
 
