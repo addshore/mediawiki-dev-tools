@@ -62,7 +62,7 @@ ComposerJson.prototype.requiresDevPackage = function(packageName, atVersion) {
 };
 
 ComposerJson.prototype.save = function() {
-  fs.writeFileSync(this.path,JSON.stringify(this.content, null, '\t'),'utf8')
+  fs.writeFileSync(this.path,JSON.stringify(this.content, null, '\t') + "\n",'utf8')
 };
 
 ComposerJson.prototype.require = function(packageName, version) {
