@@ -1,4 +1,0 @@
-Updates a requirement in a composer.json file for a given skin or extension
-
-Usage: mwdev --update-composer --skin BlueSky --package mediawiki/mediawiki-codesniffer --version 0.7.1
-       mwdev --update-composer --extension MyExtension --package foo/somePackage --version ^1.2

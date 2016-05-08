@@ -1,6 +1,0 @@
-Clones the extension into the extensions directory
-
-Usage: mwdev --clone-extension MassMessage
-
-This will clone the extension from GitHub for speed before switching
-the remote to Gerrit and adding the Gerrit commit-msg hook.

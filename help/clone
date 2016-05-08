@@ -1,0 +1,7 @@
+Clones the extension or skin into the correct directory
+
+Usage: mwdev --clone --extension MassMessage
+       mwdev --clone --skin BlueSky
+
+This will clone the extension or skin from GitHub for speed before switching
+the remote to Gerrit and adding the Gerrit commit-msg hook.

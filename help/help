@@ -1,7 +1,6 @@
 Usage: mwdev [<stuff>]
 
---clone-extension <extensionName>     Clones the extension
---clone-skin <skinName>               Clones the skin
+--clone --<type> <name>               Clones the extension or skin into the correct directory
 --extension-report                    Stuff to help you manage extensions
 --missing-extensions                  Lists missing extensions and optionally clones them with --clone
 --missing-skins                       Lists missing skins and optionally clones them with --clone

@@ -12,11 +12,10 @@ var error = clc.red.bold;
 
 var commands = [,
   "help",
-  "cloneExtension",
-  "extensionReport",
-  "missingExtensions",
-  "missingSkins",
-  "updateComposer",
+  "clone",
+  "report",
+  "missing",
+  "composer",
   "msgHook"
 ];
 

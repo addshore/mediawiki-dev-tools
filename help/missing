@@ -1,0 +1,7 @@
+Lists and optionally clones missing extensions and skins.
+
+Usage: mwdev --missing --extensions
+       mwdev --missing --skins
+       mwdev --missing --skins --extensions
+       mwdev --missing --extensions --clone
+       mwdev --missing --extensions --skins --clone

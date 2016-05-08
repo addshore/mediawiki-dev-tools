@@ -1,6 +1,0 @@
-Clones the skin into the skins directory
-
-Usage: mwdev --clone-skin BlueSky
-
-This will clone the skin from GitHub for speed before switching
-the remote to Gerrit and adding the Gerrit commit-msg hook.

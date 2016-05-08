@@ -24,10 +24,10 @@ exports.run = function (argv) {
 
   var dir = null;
   if(argv.skin) {
-    dir = MediaWikiDirectory.getSkinPath(argv.skin);
+    dir = MediaWikiDirectory.getAnnexPath('skin',argv.skin);
   }
   if(argv.extension) {
-    dir = MediaWikiDirectory.getExtensionPath(argv.extension);
+    dir = MediaWikiDirectory.getAnnexPath('extension',argv.extension);
   }
 
   ComposerJson.updateRequirement( path.resolve(dir + '/composer.json'), argv.package, argv.version );

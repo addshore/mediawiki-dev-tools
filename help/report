@@ -1,0 +1,10 @@
+Does stuff with extensions
+
+Usage: mwdev --report
+       mwdev --report --extensions --branch master
+       mwdev --report --skins --branch master --fix
+
+--extensions                            Run for extensions
+--skins                                 Run for skins
+--branch <branchName>                   Lists things that are not on the specified branch
+--branch <branchName> --fix             Checks out the given branch for all things

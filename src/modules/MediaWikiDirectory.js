@@ -45,8 +45,11 @@ exports.getPath = function () {
 
 };
 
-exports.getExtensions = function() {
-  var srcpath = path.resolve( exports.getPath() + '/extensions' );
+exports.getAnnexes = function( type ) {
+  if( type !== 'skin' && type !== 'extension' ) {
+    throw 'getAnnexes type must be skin or extension';
+  }
+  var srcpath = path.resolve( exports.getPath() + '/' + type + 's' );
   return fs.readdirSync(srcpath).filter(function(file) {
     if(file == '.git') {
       return false;
@@ -55,60 +58,28 @@ exports.getExtensions = function() {
   });
 };
 
-exports.getSkins = function() {
-  var srcpath = path.resolve( exports.getPath() + '/skins' );
-  return fs.readdirSync(srcpath).filter(function(file) {
-    if(file == '.git') {
-      return false;
-    }
-    return fs.statSync(path.join(srcpath, file)).isDirectory();
-  });
-};
 
-/**
- * @param extensionName
- * @returns {*}
- */
-exports.getExtensionPath = function(extensionName) {
-  return path.resolve(exports.getPath() + '/extensions/' + extensionName);
-};
-
-/**
- * @param skinName
- * @returns {*}
- */
-exports.getSkinPath = function(skinName) {
-  return path.resolve(exports.getPath() + '/skins/' + skinName);
+exports.getAnnexPath = function(type, name){
+  if( type !== 'skin' && type !== 'extension' ) {
+    throw 'getAnnexPath type must be skin or extension';
+  }
+  return path.resolve(exports.getPath() + '/' + type + 's/' + name);
 };
 
 /**
  * Checks to see if the given extension directory exists and it cloned / has a .git
- * @param extensionName
+ * @param type
+ * @param name
  * @returns {boolean}
  */
-exports.extensionExists = function (extensionName) {
-  var extensionPath = exports.getExtensionPath(extensionName);
-  try {
-    fs.accessSync(extensionPath, fs.F_OK);
-    fs.accessSync(path.resolve(extensionPath + '/.git'), fs.F_OK);
-    return true;
+exports.annexExitsts = function(type, name) {
+  if( type !== 'skin' && type !== 'extension' ) {
+    throw 'annexExitsts type must be skin or extension';
   }
-  catch(err) {
-    return false
-  }
-};
-
-
-/**
- * Checks to see if the given skin directory exists and it cloned / has a .git
- * @param skinName
- * @returns {boolean}
- */
-exports.skinExists = function (skinName) {
-  var skinPath = exports.getSkinPath(skinName);
+  var annexPath = exports.getAnnexPath( type, name );
   try {
-    fs.accessSync(skinPath, fs.F_OK);
-    fs.accessSync(path.resolve(skinPath + '/.git'), fs.F_OK);
+    fs.accessSync(annexPath, fs.F_OK);
+    fs.accessSync(path.resolve(annexPath + '/.git'), fs.F_OK);
     return true;
   }
   catch(err) {
