@@ -1,0 +1,9 @@
+Pull all the stuff
+
+Usage: mwdev --pull-all --all
+       mwdev --pull-all --skins
+       mwdev --pull-all --extensions
+
+--all                           Run for all skins, extensions and core
+--skins                         Run for all skins
+--extensions                    Run for all extensions

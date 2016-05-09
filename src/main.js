@@ -16,6 +16,7 @@ var commands = [,
   "report",
   "missing",
   "composer",
+  "pullAll",
   "msgHook"
 ];
 

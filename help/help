@@ -4,5 +4,6 @@ Usage: mwdev [<stuff>]
 --report                              Stuff to help you manage extensions
 --missing                             Lists missing annexes and optionally clones them with --get
 --msg-hook                            Adds the Gerrit commit-msg hook to the git repo you are in
+--pull-all                            Pulls all of something
 --composer                            Updates a requirement in a composer.json file for a given skin or extension
 --help                                Provides help. (Can be used with commands listed above)
