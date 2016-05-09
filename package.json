@@ -8,6 +8,7 @@
     "mwdev": "./src/main.js"
   },
   "dependencies": {
+    "async": "^2.0.0-rc.4",
     "cli-color": "^1.1.0",
     "file-cache-simple": "0.0.5",
     "fs-extra": "^0.30.0",
