@@ -13,6 +13,7 @@ var error = clc.red.bold;
 var commands = [,
   "help",
   "config",
+  "codeReview",
   "clone",
   "report",
   "missing",

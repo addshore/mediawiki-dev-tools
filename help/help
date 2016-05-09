@@ -2,6 +2,7 @@ Usage: mwdev [<stuff>]
 
 --config                              Configure stuff!
 --clone --<type> <name>               Clones the extension or skin into the correct directory
+--code-review params...               Interacts with Gerrit
 --report                              Stuff to help you manage extensions
 --missing                             Lists missing annexes and optionally clones them with --get
 --msg-hook                            Adds the Gerrit commit-msg hook to the git repo you are in
