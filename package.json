@@ -14,7 +14,10 @@
     "fs-extra": "^0.30.0",
     "get-all": "^0.2.0",
     "github": "^0.2.4",
+    "nconf": "^0.8.4",
+    "prompt": "^1.0.0",
     "shelljs": "^0.7.0",
+    "string-obfuscator": "0.0.2",
     "yargs": "^4.7.0"
   },
   "devDependencies": {},
