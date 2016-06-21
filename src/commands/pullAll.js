@@ -15,16 +15,16 @@ var pullDirectory = function(task, callback) {
   var useRemote = task.useRemote;
   cd(dir);
   console.log('Queuing ' + dir);
-  exec('git stash save "mwdev --pull-all"',{silent:true,async:true}, function() {
-    exec('git checkout master',{silent:true});
+  exec('git stash save "mwdev --pull-all"',{silent:true,async:true,cwd:dir}, function() {
+    exec('git checkout master',{silent:true,cwd:dir});
     if(useRemote) {
-      var oldRemote = exec('git config --get remote.origin.url',{silent:true}).stdout.trim();
-      exec('git remote set-url origin ' + useRemote,{silent:true});
+      var oldRemote = exec('git config --get remote.origin.url',{silent:true,cwd:dir}).stdout.trim();
+      exec('git remote set-url origin ' + useRemote,{silent:true,cwd:dir});
     }
-    exec('git reset --hard origin/master',{silent:true});
-    exec('git pull &',{silent:true,async:true}, function() {
+    exec('git reset --hard origin/master',{silent:true,cwd:dir});
+    exec('git pull &',{silent:true,async:true,cwd:dir}, function() {
       if(useRemote) {
-        exec('git remote set-url origin ' + oldRemote,{silent:true});
+        exec('git remote set-url origin ' + oldRemote,{silent:true,cwd:dir});
       }
       console.log('Done ' + dir);
       callback();
